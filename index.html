@@ -63,7 +63,7 @@
             return false;
         }
         
-        function WriteForm3(e)
+    function WriteForm1(e)
         {
             try
             {
@@ -72,7 +72,7 @@
                 e=document.getElementById("ExampleOutput");
 
                 l=e.value.split("\n");
-                s='#NAME •••••| ciefpsettings IPTV |•••••\n';     
+                s='#NAME •••••| ciefpsettings IPTV |•••••\n';    
                 name='';
                 for (var i=0;i<l.length;i++)
                     {
@@ -96,10 +96,8 @@
                                  name=name.replace(/#EXTINF:|[0-9],|-[1-9],|,/g,'');
                                  name=name.replace(/^\s+/g,'');
                                  if (name=='') name='Channel '+i;
-                                 s+='#SERVICE 4097:0:1:0:0:0:0:0:0:0:http%3a//127.0.0.1%3a8088/';                                 
-                                 
-//                                 s+='#SERVICE 4097:0:1:';
-//                                 s+=i+':0:0:0:0:0:0:';
+                                 s+='#SERVICE 1:0:1:';
+                                 s+=i+':0:0:0:0:0:0:';
                                  s+=url;
                                  s+=':';
                                  s+=name+'\n';
@@ -119,9 +117,8 @@
                 alert("Error: " + Err.description);               
             }
             return false;
-        }        
-        
-        
+        }
+		
         function WriteForm2(e)
         {
             try
@@ -179,65 +176,8 @@
             }
             return false;
         }
-        
-        
-        
-    function WriteForm1(e)
-        {
-            try
-            {
-                var base=document.getElementById("baseUrl").value;   
-                
-                e=document.getElementById("ExampleOutput");
-
-                l=e.value.split("\n");
-                s='#NAME •••••| ciefpsettings IPTV |•••••\n';    
-                name='';
-                for (var i=0;i<l.length;i++)
-                    {
-                        v=l[i].trim();if (v=='') continue;
-                        if (v.indexOf("#")!==-1)
-                            {
-                                if (v.toUpperCase().indexOf("#EXTINF")!=-1)
-                                    {
-                                        ci=v.indexOf(',');
-                                        if (ci!==-1) name=v.substr(ci+1);
-                                    }
-                            }
-                        else
-                            {
-                                 if (v.trim().toUpperCase().indexOf('UDP:')!=-1) 
-                                     {                                         
-                                         url=base+v.replace('udp://@', "udp/","i");
-                                     }
-                                 else url=v;
-                                 url=url.replace(/:/g,'%3a');
-                                 name=name.replace(/#EXTINF:|[0-9],|-[1-9],|,/g,'');
-                                 name=name.replace(/^\s+/g,'');
-                                 if (name=='') name='Channel '+i;
-                                 s+='#SERVICE 1:0:1:';
-                                 s+=i+':0:0:0:0:0:0:';
-                                 s+=url;
-                                 s+=':';
-                                 s+=name+'\n';
-                                 s+='#DESCRIPTION '
-                                 s+=name+'\n';
-                                 name='';
-                            }
-                    }
-                
-                s=s.split('&').join('&');
-                e.value=s;
-
-
-            }
-            catch(Err)
-            {
-                alert("Error: " + Err.description);               
-            }
-            return false;
-        }
-    function WriteForm4(e)
+          
+    function WriteForm3(e)
         {
             try
             {
@@ -292,6 +232,123 @@
             }
             return false;
         }
+		
+        function WriteForm4(e)
+        {
+            try
+            {
+                var base=document.getElementById("baseUrl").value;   
+                
+                e=document.getElementById("ExampleOutput");
+
+                l=e.value.split("\n");
+                s='#NAME •••••| ciefpsettings IPTV |•••••\n';     
+                name='';
+                for (var i=0;i<l.length;i++)
+                    {
+                        v=l[i].trim();if (v=='') continue;
+                        if (v.indexOf("#")!==-1)
+                            {
+                                if (v.toUpperCase().indexOf("#EXTINF")!=-1)
+                                    {
+                                        ci=v.indexOf(',');
+                                        if (ci!==-1) name=v.substr(ci+1);
+                                    }
+                            }
+                        else
+                            {
+                                 if (v.trim().toUpperCase().indexOf('UDP:')!=-1) 
+                                     {                                         
+                                         url=base+v.replace('udp://@', "udp/","i");
+                                     }
+                                 else url=v;
+                                 url=url.replace(/:/g,'%3a');
+                                 name=name.replace(/#EXTINF:|[0-9],|-[1-9],|,/g,'');
+                                 name=name.replace(/^\s+/g,'');
+                                 if (name=='') name='Channel '+i;
+                                 s+='#SERVICE 4097:0:1:0:0:0:0:0:0:0:http%3a//127.0.0.1%3a8088/';                                 
+                                 
+//                                 s+='#SERVICE 4097:0:1:';
+//                                 s+=i+':0:0:0:0:0:0:';
+                                 s+=url;
+                                 s+=':';
+                                 s+=name+'\n';
+                                 s+='#DESCRIPTION '
+                                 s+=name+'\n';
+                                 name='';
+                            }
+                    }
+                
+                s=s.split('&').join('&');
+                e.value=s;
+
+
+            }
+            catch(Err)
+            {
+                alert("Error: " + Err.description);               
+            }
+            return false;
+        }        
+       
+        function WriteForm5(e)
+        {
+            try
+            {
+                var base=document.getElementById("baseUrl").value;   
+                
+                e=document.getElementById("ExampleOutput");
+
+                l=e.value.split("\n");
+                s='#NAME •••••| ciefpsettings IPTV |•••••\n';     
+                name='';
+                for (var i=0;i<l.length;i++)
+                    {
+                        v=l[i].trim();if (v=='') continue;
+                        if (v.indexOf("#")!==-1)
+                            {
+                                if (v.toUpperCase().indexOf("#EXTINF")!=-1)
+                                    {
+                                        ci=v.indexOf(',');
+                                        if (ci!==-1) name=v.substr(ci+1);
+                                    }
+                            }
+                        else
+                            {
+                                 if (v.trim().toUpperCase().indexOf('UDP:')!=-1) 
+                                     {                                         
+                                         url=base+v.replace('udp://@', "udp/","i");
+                                     }
+                                 else url=v;
+                                 url=url.replace(/:/g,'%3a');
+                                 name=name.replace(/#EXTINF:|[0-9],|-[1-9],|,/g,'');
+                                 name=name.replace(/^\s+/g,'');
+                                 if (name=='') name='Channel '+i;
+                                 s+='#SERVICE 4097:0:1:0:0:0:0:0:0:0:streamlink%3a//';                                 
+                                 
+//                                 s+='#SERVICE 4097:0:1:';
+//                                 s+=i+':0:0:0:0:0:0:';
+                                 s+=url;
+                                 s+=':';
+                                 s+=name+'\n';
+                                 s+='#DESCRIPTION '
+                                 s+=name+'\n';
+                                 name='';
+                            }
+                    }
+                
+                s=s.split('&').join('&');
+                e.value=s;
+
+
+            }
+            catch(Err)
+            {
+                alert("Error: " + Err.description);               
+            }
+            return false;
+        }        
+       
         function OpenFormData(e)
         {
             var e=document.getElementById("ExampleOutput");
@@ -315,7 +372,7 @@
 </head>
 <body bgcolor="#039622">    
     <center><a href="https://www.facebook.com/groups/ciefpsettings/"><img src="https://i.imgur.com/wyE7UXI.png" border="0" alt="ciefpsettings" /></a></center>
-    <h1><center><b>..:: ciefpsettings IPTV Converter 2021 ::..</b> </center> </h1>
+    <h1><center><b>..:: ciefpsettings IPTV Converter 2024 ::..</b> </center> </h1>
    <center>
     <b> • Insert links in the window and click on the convert • </b>
     <b> download the file by clicking the download button •  </b>
@@ -331,6 +388,7 @@
 	<li><b>•••• Convert 5002 ••••  Exteplayer3 = "SERVICE 5002:0:1:0:0:0:0:0:0:0:" •</b></li>
     <li><b>•••• Convert RADIO ••••  Radio = "SERVICE 4097:0:2:0:0:0:0:0:0:0:" •</b></li>
     <li><b>•••• Convert Streamlink •••• Streamlink = "SERVICE 4097:0:1:0:0:0:0:0:0:0:http%3a//127.0.0.1%3a8088/" •</b></li> 
+    <li><b>•••• Convert Streamlinkwraper •••• Streamlinkwraper = "SERVICE 4097:0:1:0:0:0:0:0:0:0:streamlink%3a//" •</b></li> 
 	</font>
     </tt>	
     <p>
@@ -338,12 +396,14 @@
 	<input type="button" name="convert" class="viptvButtons" value="• Convert 4097 •" onClick="WriteForm(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
 	<input type="button" name="convert" class="viptvButtons" value="• Convert 101 •" onClick="WriteForm1(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
 	<input type="button" name="convert" class="viptvButtons" value="• Convert 5002 •" onClick="WriteForm2(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
-	<input type="button" name="convert" class="viptvButtons" value="• Convert RADIO •" onClick="WriteForm4(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
-	<input type="button" name="convert" class="viptvButtons" value="• Convert Streamlink •" onClick="WriteForm3(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
+	<input type="button" name="convert" class="viptvButtons" value="• Convert RADIO •" onClick="WriteForm3(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
+	<input type="button" name="convert" class="viptvButtons" value="• Convert Streamlink •" onClick="WriteForm4(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
+	<input type="button" name="convert" class="viptvButtons" value="• Convert Streamlinkwraper •" onClick="WriteForm5(); AxentTVKonverter()" <div align="right"><span style="color:black"><b>••••</b><span>
 	<input type="button" name="userbouquet.favourites.tv" class="viptvButtons" value="• Download •" onClick="OpenFormData(); AxentTVKonverter()" /></div><span style="color:black"><b>••••</b><span>
 	<input type="reset" value="• Reset •"><span style="color:black"><b>••••</b><span>
-	<div align="center"><textarea id="ExampleOutput" style="width:85%" rows="30"></textarea>
-	<footer><span style="color:black"><b><font color="#000000"> ..:: Copyright ::.. ciefpsettings ..:: 2021 ::..</font></b><span></footer>
+	<div align="center"><textarea id="ExampleOutput" style="width:85%" rows="30"></textarea></center>
+	<center><a href="https://t.me/+rrqyyPbtcuk4ZDM0"> <b><font color="#000000">..:: Telegram ciefpsettings : click here ::..</b> 
+	<footer><span style="color:black"><b><font color="#000000">..:: Copyright ::.. ciefpsettings ..:: 2024 ::..  </font></b><span></footer>
     </p></div></form></center>
 </body>
 </html>
