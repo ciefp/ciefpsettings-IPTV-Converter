@@ -46,14 +46,21 @@
                             }
                         }
                     } else {
-                        let url = encodeURIComponent(trimmedLine)
-                            .replace(/%3A/g, ':')
-                            .replace(/http:/g, 'http%3a//');
+                        // Kodiranje URL-a sa specijalnim izuzecima
+                        let url = trimmedLine
+                            .replace(/http:\/\//g, 'http%3a//')  // Zamena 'http://' sa 'http%3a//'
+                            .replace(/https:\/\//g, 'https%3a//')  // Zamena 'https://' sa 'https%3a//'
+                            .replace(/:/g, '%3a');  // Zamena ':' sa '%3a'
+
+                        // Adding the prefix if it exists (for Streamlink and Streamlink Wrapper)
+                        if (prefix) {
+                            url = prefix + url;
+                        }
 
                         channelName = channelName.replace(/#EXTINF:|[0-9]+\.?[0-9]*\s(hours|minutes)?|,|-/gi, '').trim();
                         if (!channelName) channelName = `Channel ${index + 1}`;
 
-                        result += `#SERVICE ${serviceType}:0:1:0:0:0:0:0:0:0:${url}:${channelName}\n`;
+                        result += `#SERVICE ${serviceType}:0:0:0:0:0:0:0:${url}:${channelName}\n`;
                         result += `#DESCRIPTION ${channelName}\n`;
                         channelName = '';
                     }
@@ -83,6 +90,18 @@
         function resetForm() {
             document.getElementById("ExampleOutput").value = '';
         }
+
+        function copyToClipboard() {
+            try {
+                const output = document.getElementById("ExampleOutput");
+                output.select();
+                output.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand("copy");
+                alert("Copied to clipboard!");
+            } catch (err) {
+                alert("Error: Unable to copy.");
+            }
+        }
     </script>
 </head>
 <body>
@@ -111,6 +130,7 @@
             <button class="button" onclick="processInput('4097:0:1', 'streamlink%3a//')">Convert Streamlink Wrapper</button>
             <button class="button" onclick="downloadFile()">Download</button>
             <button class="button" onclick="resetForm()">Reset</button>
+            <button class="button" onclick="copyToClipboard()">Copy Code</button>
         </div>
     </main>
 
