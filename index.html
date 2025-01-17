@@ -24,14 +24,33 @@
             height: 300px;
             margin: 10px 0;
         }
+        .input-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        .input-section input {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+        }
     </style>
     <script>
         function processInput(serviceType, prefix = '') {
             try {
                 const baseUrl = document.getElementById("baseUrl").value;
+                const bouquetName = document.getElementById("bouquetName").value.trim();
                 const outputElement = document.getElementById("ExampleOutput");
                 const lines = outputElement.value.split("\n");
-                let result = '#NAME •••••| ciefpsettings IPTV |•••••\n';
+
+                if (!bouquetName) {
+                    alert("Unesite naziv buketa!");
+                    return;
+                }
+
+                let result = `#NAME ${bouquetName}\n`; // Koristi naziv buketa
                 let channelName = '';
 
                 lines.forEach((line, index) => {
@@ -46,13 +65,11 @@
                             }
                         }
                     } else {
-                        // Kodiranje URL-a sa specijalnim izuzecima
                         let url = trimmedLine
-                            .replace(/http:\/\//g, 'http%3a//')  // Zamena 'http://' sa 'http%3a//'
-                            .replace(/https:\/\//g, 'https%3a//')  // Zamena 'https://' sa 'https%3a//'
-                            .replace(/:/g, '%3a');  // Zamena ':' sa '%3a'
+                            .replace(/http:\/\//g, 'http%3a//')
+                            .replace(/https:\/\//g, 'https%3a//')
+                            .replace(/:/g, '%3a');
 
-                        // Adding the prefix if it exists (for Streamlink and Streamlink Wrapper)
                         if (prefix) {
                             url = prefix + url;
                         }
@@ -74,11 +91,19 @@
 
         function downloadFile() {
             try {
+                const bouquetName = document.getElementById("bouquetName").value.trim();
+                if (!bouquetName) {
+                    alert("Unesite naziv buketa!");
+                    return;
+                }
+
                 const output = document.getElementById("ExampleOutput").value;
+                const fileName = `userbouquet.${bouquetName}.tv`;
                 const uri = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(output);
+
                 const link = document.createElement("a");
                 link.href = uri;
-                link.download = "userbouquet.favourites.tv";
+                link.download = fileName;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -110,14 +135,20 @@
             <img src="https://i.imgur.com/wyE7UXI.png" alt="ciefpsettings" />
         </a>
         <h1>..:: ciefpsettings IPTV Converter 2025 ::..</h1>
-        <p><strong>Insert links in the window and click convert, then download the file.</strong></p>
         <p><strong>Description:</strong>This script is an IPTV Converter that allows users to enter IPTV links and convert them to Enigma2 formats for bouquets.
             Supports various types of services such as Gstreamer (4097), DVB (101), Exteplayer3 (5002), and more.</p>
     </header>
 
     <main>
-        <label for="baseUrl"><strong>Address UDP:</strong></label>
-        <input id="baseUrl" value="http://localhost:81/" type="text">
+        <div class="input-section">
+            <label for="baseUrl"><strong>Address UDP:</strong></label>
+            <input id="baseUrl" value="http://localhost:81/" type="text">
+
+            <label for="bouquetName"><strong>Bouquet Name:</strong></label>
+            <input id="bouquetName" value="CiefpSettings IPTV" type="text" placeholder="Unesite naziv buketa">
+
+            <button class="button" onclick="downloadFile()">Download</button>
+        </div>
 
         <textarea id="ExampleOutput"></textarea>
 
@@ -128,7 +159,6 @@
             <button class="button" onclick="processInput('4097:0:2')">Convert RADIO</button>
             <button class="button" onclick="processInput('4097:0:1', 'http%3a//127.0.0.1%3a8088/')">Convert Streamlink</button>
             <button class="button" onclick="processInput('4097:0:1', 'streamlink%3a//')">Convert Streamlink Wrapper</button>
-            <button class="button" onclick="downloadFile()">Download</button>
             <button class="button" onclick="resetForm()">Reset</button>
             <button class="button" onclick="copyToClipboard()">Copy Code</button>
         </div>
